@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic AI Field Report - LinkedIn Pack</title>
+<style>
+  :root {
+    --shell-bg: #0f1117;
+    --nav-bg: #161b22;
+    --nav-border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent: #0a66c2;
+    --pill-bg: #21262d;
+    --pill-hover: #30363d;
+    --pill-active-bg: #0a66c2;
+    --pill-active-text: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--shell-bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+  }
+  .shell-nav {
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--nav-border);
+    padding: 0.65rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+  .shell-brand { display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; flex-shrink: 0; }
+  .shell-brand-icon { font-size: 1.1rem; }
+  .shell-brand-text {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .shell-divider { width: 1px; height: 1.4rem; background: var(--nav-border); flex-shrink: 0; }
+  .shell-links { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+  .shell-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    background: var(--pill-bg);
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .shell-links a:hover { color: var(--text); background: var(--pill-hover); border-color: var(--nav-border); }
+  .shell-links a.active {
+    color: var(--pill-active-text);
+    background: var(--pill-active-bg);
+    border-color: var(--pill-active-bg);
+    font-weight: 600;
+  }
+  .shell-links a .icon { font-size: 0.95rem; line-height: 1; }
+  .shell-content { flex: 1; position: relative; overflow: hidden; }
+  .shell-content iframe { width: 100%; height: 100%; border: none; background: #ffffff; }
+  .shell-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--shell-bg);
+    z-index: 5;
+    transition: opacity 0.3s ease;
+  }
+  .shell-loading.hidden { opacity: 0; pointer-events: none; }
+  .shell-loading-spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid var(--nav-border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (max-width: 640px) {
+    .shell-nav { flex-wrap: wrap; gap: 0.5rem; padding: 0.5rem 0.75rem; }
+    .shell-divider { display: none; }
+    .shell-links { gap: 0.3rem; }
+    .shell-links a { padding: 0.3rem 0.55rem; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="shell-nav">
+  <div class="shell-brand">
+    <span class="shell-brand-icon">&#128202;</span>
+    <span class="shell-brand-text">Agentic AI Field Report &middot; LinkedIn Pack</span>
+  </div>
+  <div class="shell-divider"></div>
+  <div class="shell-links">
+    <a href="#" data-page="2026-06-10 - Agentic AI Field Report - LinkedIn-EN.html" class="active">
+      <span class="icon">&#127468;&#127463;</span> Article EN
+    </a>
+    <a href="#" data-page="2026-06-10 - Agentic AI Standortbestimmung - LinkedIn-DE.html">
+      <span class="icon">&#127465;&#127466;</span> Artikel DE
+    </a>
+  </div>
+</nav>
+
+<div class="shell-content">
+  <div class="shell-loading" id="loader">
+    <div class="shell-loading-spinner"></div>
+  </div>
+  <iframe id="content-frame" src="2026-06-10 - Agentic AI Field Report - LinkedIn-EN.html"></iframe>
+</div>
+
+<script>
+(function() {
+  const links = document.querySelectorAll('.shell-links a');
+  const frame = document.getElementById('content-frame');
+  const loader = document.getElementById('loader');
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const page = link.dataset.page;
+      if (frame.src.endsWith(encodeURI(page))) return;
+      links.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      loader.classList.remove('hidden');
+      frame.src = page;
+    });
+  });
+  frame.addEventListener('load', () => { loader.classList.add('hidden'); });
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    const active = document.querySelector('.shell-links a.active');
+    const all = Array.from(links);
+    const idx = all.indexOf(active);
+    if (e.key === 'ArrowRight' && idx < all.length - 1) all[idx + 1].click();
+    else if (e.key === 'ArrowLeft' && idx > 0) all[idx - 1].click();
+  });
+})();
+</script>
+
+</body>
+</html>

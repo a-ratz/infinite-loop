@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 900px;
+      height: 300px;
+      background: linear-gradient(180deg, #1a1a1f 0%, #0f0f14 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle grid pattern */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+    }
+
+    /* Gradient overlay */
+    body::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center top, rgba(99, 102, 241, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 72px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      background: linear-gradient(180deg, #e4e4e7 0%, #71717a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      z-index: 1;
+      text-transform: uppercase;
+    }
+
+    p {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      color: #52525b;
+      letter-spacing: 2px;
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1>INFINITE LOOP</h1>
+  <p>Interactive essays & explorable ideas</p>
+</body>
+</html>

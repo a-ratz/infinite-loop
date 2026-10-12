@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic AI, June 2026: A Field Report</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #1c2128;
+    --muted: #4d5560;
+    --soft: #768390;
+    --line: #d8dee4;
+    --accent: #0a66c2;
+    --panel: #f6f8fa;
+    --max: 740px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.7;
+  }
+  .hero { width: min(1080px, calc(100% - 2rem)); margin: 2rem auto 0; border: 1px solid var(--line); }
+  .hero img { display: block; width: 100%; height: auto; }
+  article { width: min(var(--max), calc(100% - 2rem)); margin: 0 auto; padding: 2.6rem 0 4.5rem; }
+  h1 { margin: 0 0 0.6rem; font-size: clamp(1.9rem, 5vw, 2.7rem); line-height: 1.12; }
+  .subtitle { margin: 0 0 1rem; color: var(--muted); font-size: clamp(1.02rem, 2vw, 1.2rem); }
+  .byline {
+    margin: 0 0 2rem;
+    color: var(--soft);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  h2 { margin: 2.6rem 0 0.8rem; font-size: clamp(1.35rem, 3vw, 1.7rem); line-height: 1.2; }
+  p { margin: 1rem 0; font-size: 1.05rem; }
+  a { color: var(--accent); }
+  strong { color: #000000; }
+  ul, ol { margin: 1rem 0 1.3rem; padding-left: 1.3rem; }
+  li { margin: 0.45rem 0; font-size: 1.03rem; }
+  blockquote {
+    margin: 1.5rem 0;
+    padding: 0.2rem 0 0.2rem 1.2rem;
+    border-left: 3px solid var(--accent);
+    color: var(--muted);
+  }
+  .keyline {
+    margin: 1.8rem 0;
+    padding: 1.1rem 1.25rem;
+    border-left: 4px solid var(--accent);
+    background: var(--panel);
+    font-size: 1.12rem;
+    font-weight: 600;
+    color: #000000;
+  }
+  figure.inline { margin: 2rem 0; border: 1px solid var(--line); }
+  figure.inline img { display: block; width: 100%; height: auto; }
+  figure.inline figcaption { padding: 0.55rem 0.85rem; color: var(--soft); font-size: 0.82rem; border-top: 1px solid var(--line); background: var(--panel); }
+  .sources { margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.93rem; }
+  .sources h2 { font-size: 1.25rem; margin-top: 0; }
+  .sources li { margin: 0.3rem 0; font-size: 0.93rem; }
+  @media (max-width: 680px) { p { font-size: 1rem; } }
+</style>
+</head>
+<body>
+  <figure class="hero">
+    <img src="assets/hero-field-report-en.png" alt="Banner: Agentic AI - Field Report, June 2026, by Andre Ratzenberger">
+  </figure>
+
+  <article>
+    <h1>Agentic AI, June 2026: A Field Report</h1>
+    <p class="subtitle">What actually changed this month, what the data says, and what teams should do about it.</p>
+    <p class="byline">June 10, 2026 &middot; Andr&eacute; Ratzenberger</p>
+
+    <p>This week compressed a year of agentic AI debate into about 48 hours. Anthropic released Claude Fable 5, a model explicitly positioned for long autonomous work sessions. A few days earlier, the "you should write loops, not prompts" discussion finally crossed over from X into mainstream engineering circles. And in between, the usual mix of remarkable demos, vendor numbers, and walk-backs.</p>
+
+    <p>This seems like a good moment for a sober field report. Not a hype piece, not a dismissal - an attempt to separate what actually changed from what just got louder. I have tried to name and link every source, and I would encourage you to read the skeptical ones first.</p>
+
+    <h2>1. Models now hold genuinely long autonomous sessions</h2>
+
+    <p>The headline capability of <a href="https://www.anthropic.com/news/claude-fable-5-mythos-5">Claude Fable 5</a> is not a benchmark score. It is endurance. Ethan Mollick, who had early access, <a href="https://x.com/emollick/status/2064395281903346013">reported</a> feeding it a 15-page design document and watching it "work for 9+ hours and deliver terrific results." Andrej Karpathy <a href="https://x.com/karpathy/status/2064409694761054332">called it</a> a step change for "long problem-solving sessions on very difficult problems" - and added, notably, "it's never felt this tempting to stop looking at the code at all (but don't do this in prod!)".</p>
+
+    <p>Anthropic itself claims the model "can work for days at a time" inside an agent harness. That is a vendor claim and should be treated as one. But the direction is consistent with independent measurements: <a href="https://metr.org/blog/2026-1-29-time-horizon-1-1/">METR's task-horizon research</a> finds the length of tasks AI systems can complete autonomously has been doubling roughly every three months on recent data.</p>
+
+    <p>The practical consequence for teams: the constraint is moving from "can the model do this task" to "can our workflow absorb a system that works unattended for hours." Those are very different engineering problems. The second one is about permissions, checkpoints, evidence, and review capacity - not prompting.</p>
+
+    <h2>2. The loop replaced the prompt as the unit of work</h2>
+
+    <p>Boris Cherny, who created Claude Code, <a href="https://addyosmani.com/blog/loop-engineering/">describes his current workflow</a> like this: "I don't prompt Claude anymore. I have loops that are running. They're the ones that are prompting Claude and figuring out what to do. My job is to write loops." Addy Osmani has written the best practitioner summary of this pattern under the name "loop engineering."</p>
+
+    <p>Strip the novelty away and the useful definition is small:</p>
+
+    <blockquote>A loop is a bounded feedback system: attempt, verify, then retry, escalate, or stop - with a budget and a named reason for stopping.</blockquote>
+
+    <p>This is now productized. Claude Code ships <code>/loop</code> and <code>/goal</code> commands, GitHub Copilot ships <code>/fleet</code> for parallel sub-agents, Cursor runs cloud agents in isolated VMs. The pattern moved from blog posts into the default tooling in roughly six months.</p>
+
+    <p>I think two things are being mixed in the public discussion, and separating them matters: a loop that keeps an agent busy is easy to build. A loop that has a reliable reason to stop is the actual engineering work. The first one is a demo. The second one is a system you can defend in a review.</p>
+
+    <h2>3. Verification is the new bottleneck</h2>
+
+    <p>The most useful skeptical piece this week came from <a href="https://alphasignalai.substack.com/p/most-developers-do-not-need-agent">AlphaSignal</a>: "Generation was never the bottleneck, and loops make that obvious." I agree, and the data backs it up:</p>
+
+    <ul>
+      <li>AI-assisted pull requests wait <a href="https://newsletter.eng-leadership.com/p/code-review-is-the-new-bottleneck">4.6 to 5.3 times longer for reviewer pickup</a> - generation scaled, review did not.</li>
+      <li>The <a href="https://dora.dev/dora-report-2025/">DORA 2025 report</a> finds AI increases throughput and instability at the same time: "AI doesn't fix a team; it amplifies what's already there."</li>
+      <li>Osmani warns about "comprehension debt": the growing distance between what the repository contains and what the team understands.</li>
+    </ul>
+
+    <p>A loop without a verifier is just an agent agreeing with itself expensively. The verifier - tests, type checks, deterministic gates, a separate review agent, a human at the right escalation point - is where the value of the whole arrangement is decided. If you invest in one thing this year, invest there.</p>
+
+    <h2>4. The adoption gap is real, and it is informative</h2>
+
+    <p>Depending on who counts, enterprise agent adoption is 80%, 62%, or 17%.</p>
+
+    <figure class="inline">
+      <img src="assets/adoption-spread-pro.png" alt="Bar chart: 80 percent (Microsoft telemetry, loose definition), 62 percent (McKinsey, at least experimenting), 17 percent (Gartner CIO survey, actually deployed)">
+      <figcaption>Same question, three answers. The definitions are doing the work.</figcaption>
+    </figure>
+
+    <p><a href="https://www.microsoft.com/en-us/security/blog/2026/02/10/80-of-fortune-500-use-active-ai-agents-observability-governance-and-security-shape-the-new-frontier/">Microsoft's telemetry</a> counts low-code assistant bots and reaches 80% of the Fortune 500. <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai">McKinsey</a> finds 62% "at least experimenting." <a href="https://www.gartner.com/en/articles/hype-cycle-for-agentic-ai">Gartner's CIO survey</a> finds 17% have actually deployed agents - and Gartner coined the term "agent washing" after estimating that only about 130 of the thousands of self-declared agentic vendors are genuinely agentic. They also <a href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027">predict over 40% of agentic projects will be canceled by 2027</a>.</p>
+
+    <p>On the developer side the picture is similar: <a href="https://survey.stackoverflow.co/2025/ai">Stack Overflow</a> finds 84% of developers using or planning to use AI tools, but only 14.1% using agents daily. <a href="https://blog.jetbrains.com/research/2025/10/state-of-developer-ecosystem-2025/">JetBrains</a> finds 85% AI usage but only 44% calling it integrated into their workflow.</p>
+
+    <p>I do not read this gap as failure. I read it as a normal absorption curve for a technology whose best practices currently rewrite themselves every few months. The teams in the 14% are not imagining their results, and the teams holding back are not being irrational - they are responding to real review costs and real instability. The practical move is to treat the skeptics' findings as design requirements, not as obstacles.</p>
+
+    <h2>5. Access economics just joined the architecture conversation</h2>
+
+    <p>Three data points from the last ten days that belong together:</p>
+
+    <ul>
+      <li>Fable 5 costs twice as much as the previous flagship, is included in subscriptions only until June 22, and ships with safety classifiers that can route requests down to a smaller model.</li>
+      <li>Uber <a href="https://www.bloomberg.com/news/articles/2026-06-02/uber-caps-usage-of-ai-tools-like-claude-code-to-cut-costs">capped agentic tool spend</a> at $1,500 per engineer per month after exhausting its annual budget in four months.</li>
+      <li>Klarna's CEO Sebastian Siemiatkowski, after famously replacing support staff with AI, <a href="https://fortune.com/2025/05/09/klarna-ai-humans-return-on-investment/">said on the record</a>: "As cost unfortunately seems to have been a too predominant evaluation factor... what you end up having is lower quality." Credit to him for the honest correction - the AI still handles most chats, but the human path came back.</li>
+    </ul>
+
+    <p>The lesson is the same in all three: model access, model cost, and model routing are now architectural dependencies. Plan for them the way you plan for cloud region outages - with fallbacks, budgets, and an explicit answer to "what happens when the good model is not available or not affordable."</p>
+
+    <h2>What I would do as a team this quarter</h2>
+
+    <ol>
+      <li><strong>Pick one repeated, verifiable workflow.</strong> Not a moonshot. Something that happens weekly and has a checkable definition of done.</li>
+      <li><strong>Write the loop contract before the loop.</strong> Goal, allowed scope, checks, budget, stop conditions, escalation path. If you cannot name these, the task wants a human decision first, not an agent.</li>
+      <li><strong>Put deterministic verification on the critical path.</strong> Tests, type checks, linting, screenshot diffs - signals the model cannot talk its way past.</li>
+      <li><strong>Measure review load, not just generation speed.</strong> If PR pickup time grows faster than throughput, you are accumulating risk, not velocity.</li>
+      <li><strong>Budget tokens like cloud spend.</strong> Caps, alerts, and per-workflow accounting from day one. Uber's experience is the default trajectory, not the exception.</li>
+      <li><strong>Keep the trace.</strong> The agent's work should leave evidence a reviewer can inspect in minutes. If review is archaeology, the loop is not done.</li>
+    </ol>
+
+    <h2>Risks and boundaries</h2>
+
+    <p>Three things I would watch carefully. First, governance maturity: <a href="https://www.deloitte.com/us/en/about/press-room/state-of-ai-report-2026.html">Deloitte finds only 21% of organizations</a> have mature agent governance while 75% plan agentic deployments - that gap is where incidents come from. Second, comprehension debt: shipping code nobody on the team understands is a liability with a delay on it. Third, number hygiene: most headline benchmarks and ROI figures in this space are vendor-published. Treat vendor numbers as vendor numbers, including the ones in this article's sources.</p>
+
+    <h2>The takeaway</h2>
+
+    <div class="keyline">The teams that win this phase will not be the ones running the most agents. They will be the ones who can say precisely what their agents did, prove it, and stop them for the right reason.</div>
+
+    <p>The capability jump is real. The tooling is real. The adoption gap is real. None of these contradict each other - they describe a technology in the middle of being absorbed. The job right now is not to predict the end state. It is to build the workflows that will still make sense whichever way the next hundred days move.</p>
+
+    <p>I am curious how others are handling this: what is the first workflow you trusted an agent with - and what made you trust it?</p>
+
+    <div class="sources">
+      <h2>Sources / further reading</h2>
+      <ul>
+        <li>Anthropic: <a href="https://www.anthropic.com/news/claude-fable-5-mythos-5">Introducing Claude Fable 5 and Claude Mythos 5</a></li>
+        <li>Simon Willison: <a href="https://simonwillison.net/2026/Jun/9/claude-fable-5/">Initial impressions of Claude Fable 5</a></li>
+        <li>Addy Osmani: <a href="https://addyosmani.com/blog/loop-engineering/">Loop Engineering</a></li>
+        <li>AlphaSignal: <a href="https://alphasignalai.substack.com/p/most-developers-do-not-need-agent">Most Developers Do Not Need Agent Loops Yet</a></li>
+        <li>METR: <a href="https://metr.org/blog/2026-1-29-time-horizon-1-1/">Time Horizon 1.1</a></li>
+        <li>DORA: <a href="https://dora.dev/dora-report-2025/">State of AI-assisted Software Development 2025</a></li>
+        <li>Stack Overflow: <a href="https://survey.stackoverflow.co/2025/ai">2025 Developer Survey, AI section</a> &middot; JetBrains: <a href="https://blog.jetbrains.com/research/2025/10/state-of-developer-ecosystem-2025/">State of Developer Ecosystem 2025</a></li>
+        <li>Gartner: <a href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027">Agentic AI project cancellations</a> &middot; McKinsey: <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai">The State of AI</a> &middot; Microsoft: <a href="https://www.microsoft.com/en-us/security/blog/2026/02/10/80-of-fortune-500-use-active-ai-agents-observability-governance-and-security-shape-the-new-frontier/">Fortune 500 agent telemetry</a> &middot; Deloitte: <a href="https://www.deloitte.com/us/en/about/press-room/state-of-ai-report-2026.html">State of AI 2026</a></li>
+        <li>Bloomberg: <a href="https://www.bloomberg.com/news/articles/2026-06-02/uber-caps-usage-of-ai-tools-like-claude-code-to-cut-costs">Uber caps AI tool usage</a> &middot; Fortune: <a href="https://fortune.com/2025/05/09/klarna-ai-humans-return-on-investment/">Klarna's correction</a></li>
+        <li>Eng leadership data: <a href="https://newsletter.eng-leadership.com/p/code-review-is-the-new-bottleneck">Code review is the new bottleneck</a></li>
+      </ul>
+    </div>
+  </article>
+</body>
+</html>

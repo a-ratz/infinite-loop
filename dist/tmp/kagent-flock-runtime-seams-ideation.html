@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ideation: kagent + Flock Runtime Interfaces</title>
+  <style>
+    :root {
+      --bg: #f8faf7;
+      --panel: #ffffff;
+      --ink: #17211c;
+      --muted: #53635a;
+      --line: #d8e0d8;
+      --accent: #145d66;
+      --accent-soft: #e2f3f4;
+      --accent-text: #0f4a51;
+      --green-soft: #e7f3e7;
+      --green-text: #245b32;
+      --amber-soft: #fff1d7;
+      --amber-text: #7a4a08;
+      --rose-soft: #fbe5e6;
+      --rose-text: #86313b;
+      --violet-soft: #eee8fb;
+      --violet-text: #55418b;
+      --code-bg: #eef2ed;
+      --shadow: 0 14px 34px rgba(23, 33, 28, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, #eef8f5 0, var(--bg) 280px),
+        var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.58;
+    }
+
+    main {
+      width: min(1120px, calc(100vw - 36px));
+      margin: 0 auto;
+      padding: 42px 0 56px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.18;
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 4.4rem);
+      max-width: 960px;
+    }
+
+    h2 {
+      font-size: 1.55rem;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+    }
+
+    p {
+      margin: 0 0 1rem;
+      max-width: 78ch;
+    }
+
+    a {
+      color: var(--accent-text);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    code {
+      background: var(--code-bg);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0.08rem 0.28rem;
+      font-size: 0.92em;
+    }
+
+    strong { color: inherit; }
+
+    .eyebrow {
+      color: var(--accent-text);
+      font-size: 0.76rem;
+      font-weight: 760;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .meta-grid, .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .meta-grid {
+      margin-top: 6px;
+      max-width: 960px;
+    }
+
+    .meta-item, .stat {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .meta-item dt, .stat dt {
+      color: var(--muted);
+      font-size: 0.73rem;
+      font-weight: 760;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .meta-item dd, .stat dd {
+      margin: 3px 0 0;
+      font-weight: 680;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    nav a, .jump-list a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 5px 11px;
+      color: var(--accent-text);
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+
+    section {
+      margin-top: 34px;
+    }
+
+    .panel, article.idea {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .context-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.86fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .diagram-card {
+      background: #fdfefd;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+
+    .diagram-card svg {
+      display: block;
+      width: 100%;
+      min-width: 440px;
+      height: auto;
+    }
+
+    .stats-grid {
+      margin-top: 14px;
+    }
+
+    .axes {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .axes li {
+      background: var(--accent-soft);
+      border: 1px solid #c1e1e4;
+      border-radius: 8px;
+      padding: 12px;
+      color: var(--accent-text);
+      font-weight: 650;
+    }
+
+    .jump-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 16px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .ideas {
+      display: grid;
+      gap: 16px;
+    }
+
+    .idea-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 0.78rem;
+      font-weight: 720;
+      border: 1px solid transparent;
+    }
+
+    .chip.axis { background: var(--accent-soft); color: var(--accent-text); border-color: #c1e1e4; }
+    .chip.conf { background: var(--green-soft); color: var(--green-text); border-color: #c9e4ce; }
+    .chip.cx { background: var(--amber-soft); color: var(--amber-text); border-color: #efd395; }
+    .chip.novel { background: var(--violet-soft); color: var(--violet-text); border-color: #d8cdf2; }
+
+    dl.fields {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 8px 14px;
+      margin: 0;
+    }
+
+    dl.fields dt {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    dl.fields dd {
+      margin: 0;
+    }
+
+    .callout {
+      border-radius: 8px;
+      padding: 14px;
+      margin: 14px 0 0;
+    }
+
+    .callout.good { background: var(--green-soft); color: var(--green-text); }
+    .callout.warn { background: var(--amber-soft); color: var(--amber-text); }
+    .callout.rose { background: var(--rose-soft); color: var(--rose-text); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #edf4f0;
+      color: #253229;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .references {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .references li {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    footer {
+      margin-top: 34px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      .meta-grid, .stats-grid, .axes, .context-layout {
+        grid-template-columns: 1fr;
+      }
+      dl.fields {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Ideation Artifact</div>
+      <h1>kagent + Flock Runtime Interfaces</h1>
+      <p>Focus: type-safe orchestration for auto-spawning Kubernetes agents, with the boring already-solved parts cut away.</p>
+      <dl class="meta-grid" aria-label="Document metadata">
+        <div class="meta-item"><dt>Date</dt><dd><time datetime="2026-06-30">2026-06-30</time></dd></div>
+        <div class="meta-item"><dt>Topic</dt><dd>kagent-flock-runtime-seams</dd></div>
+        <div class="meta-item"><dt>Mode</dt><dd>repo-grounded</dd></div>
+        <div class="meta-item"><dt>Focus</dt><dd>typed Kubernetes agent lifecycle</dd></div>
+      </dl>
+      <nav aria-label="Document sections">
+        <a href="#codebase-context">Codebase Context</a>
+        <a href="#topic-axes">Topic Axes</a>
+        <a href="#ranked-ideas">Ranked Ideas</a>
+        <a href="#rejection-summary">Rejection Summary</a>
+        <a href="#sources-references">Sources &amp; References</a>
+      </nav>
+    </header>
+
+    <section id="codebase-context">
+      <h2>Codebase Context</h2>
+      <div class="context-layout">
+        <div class="panel">
+          <p>Flock and kagent do not overlap as much as they first appear to. Flock is the typed coordination layer: artifacts carry schema, provenance, visibility, tags, correlation, and history; agents react through typed subscriptions and emit validated outputs. kagent is the Kubernetes-native runtime layer: agents are CRDs, declarative agents compile to Deployments and Services, BYO agents are deployed as user containers serving A2A on port 8080, and MCP/A2A are first-class tool and agent surfaces.</p>
+          <p>The strongest product move is therefore not to make another Kubernetes copilot. It is to make a typed artifact become the declarative reason a Kubernetes agent exists. Flock decides that <code>ClusterIncident</code> needs an investigator; kagent reconciles the actual runtime; the result returns as <code>InvestigationReport</code>, with history and visibility preserved.</p>
+          <p>Novelty check: kagent and ARK cover Kubernetes agent CRDs; Agent Sandbox covers isolated warm runtimes; Kubiya, K8sGPT, HolmesGPT, Robusta, and Akuity cover operational troubleshooting. Beluga AI is a yellow flag because it explicitly claims a blackboard-pattern agent framework with Kubernetes CRD deployment surfaces. The remaining white space is narrower and better: schema-validated blackboard events driving agent lifecycle, not merely deploying agents or chatting with clusters.</p>
+          <dl class="stats-grid" aria-label="Ideation stats">
+            <div class="stat"><dt>Raw Candidates</dt><dd>18</dd></div>
+            <div class="stat"><dt>Survivors</dt><dd>7</dd></div>
+            <div class="stat"><dt>Cut</dt><dd>11</dd></div>
+            <div class="stat"><dt>Top Wedge</dt><dd>Typed spawner</dd></div>
+          </dl>
+        </div>
+        <div class="diagram-card" aria-label="Conceptual runtime bridge diagram">
+          <svg viewBox="0 0 620 430" role="img" aria-labelledby="diagram-title diagram-desc">
+            <title id="diagram-title">Typed artifact to Kubernetes agent lifecycle</title>
+            <desc id="diagram-desc">A Flock typed artifact triggers a bridge that reconciles kagent resources, calls the agent over A2A, and returns validated artifacts.</desc>
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#145d66"></path>
+              </marker>
+              <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
+                <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#17211c" flood-opacity="0.13"></feDropShadow>
+              </filter>
+            </defs>
+            <rect x="20" y="22" width="170" height="92" rx="8" fill="#e2f3f4" stroke="#9bd0d5" filter="url(#soft-shadow)"></rect>
+            <text x="40" y="54" font-size="18" font-weight="700" fill="#0f4a51">Flock artifact</text>
+            <text x="40" y="80" font-size="14" fill="#0f4a51">ClusterIncident</text>
+            <text x="40" y="100" font-size="13" fill="#53635a">schema + tags + visibility</text>
+
+            <rect x="225" y="22" width="170" height="92" rx="8" fill="#fff1d7" stroke="#e6bf6b" filter="url(#soft-shadow)"></rect>
+            <text x="246" y="54" font-size="18" font-weight="700" fill="#7a4a08">Bridge</text>
+            <text x="246" y="80" font-size="14" fill="#7a4a08">subscription match</text>
+            <text x="246" y="100" font-size="13" fill="#6f5b3a">compile desired runtime</text>
+
+            <rect x="430" y="22" width="170" height="92" rx="8" fill="#eee8fb" stroke="#c6b9ea" filter="url(#soft-shadow)"></rect>
+            <text x="452" y="54" font-size="18" font-weight="700" fill="#55418b">kagent CRDs</text>
+            <text x="452" y="80" font-size="14" fill="#55418b">Agent / SandboxAgent</text>
+            <text x="452" y="100" font-size="13" fill="#655f77">ModelConfig + MCP</text>
+
+            <rect x="430" y="186" width="170" height="92" rx="8" fill="#e7f3e7" stroke="#afd8b7" filter="url(#soft-shadow)"></rect>
+            <text x="452" y="218" font-size="18" font-weight="700" fill="#245b32">Runtime pod</text>
+            <text x="452" y="244" font-size="14" fill="#245b32">A2A on port 8080</text>
+            <text x="452" y="264" font-size="13" fill="#53635a">MCP tools + memory</text>
+
+            <rect x="225" y="186" width="170" height="92" rx="8" fill="#ffffff" stroke="#d8e0d8" filter="url(#soft-shadow)"></rect>
+            <text x="246" y="218" font-size="18" font-weight="700" fill="#17211c">Validator</text>
+            <text x="246" y="244" font-size="14" fill="#17211c">Pydantic output gate</text>
+            <text x="246" y="264" font-size="13" fill="#53635a">repair or reject</text>
+
+            <rect x="20" y="186" width="170" height="92" rx="8" fill="#e2f3f4" stroke="#9bd0d5" filter="url(#soft-shadow)"></rect>
+            <text x="40" y="218" font-size="18" font-weight="700" fill="#0f4a51">Flock artifact</text>
+            <text x="40" y="244" font-size="14" fill="#0f4a51">InvestigationReport</text>
+            <text x="40" y="264" font-size="13" fill="#53635a">history + graph + replay</text>
+
+            <path d="M 190 68 L 218 68" stroke="#145d66" stroke-width="3" marker-end="url(#arrow)"></path>
+            <path d="M 395 68 L 423 68" stroke="#145d66" stroke-width="3" marker-end="url(#arrow)"></path>
+            <path d="M 515 114 L 515 178" stroke="#145d66" stroke-width="3" marker-end="url(#arrow)"></path>
+            <path d="M 430 232 L 402 232" stroke="#145d66" stroke-width="3" marker-end="url(#arrow)"></path>
+            <path d="M 225 232 L 197 232" stroke="#145d66" stroke-width="3" marker-end="url(#arrow)"></path>
+
+            <rect x="62" y="335" width="496" height="58" rx="8" fill="#fff" stroke="#d8e0d8"></rect>
+            <text x="88" y="360" font-size="16" font-weight="700" fill="#17211c">The new primitive:</text>
+            <text x="88" y="382" font-size="16" fill="#17211c">schema-checked artifact publication controls agent lifecycle.</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="topic-axes">
+      <h2>Topic Axes</h2>
+      <ul class="axes">
+        <li>Typed runtime compilation</li>
+        <li>Execution bridge</li>
+        <li>Tool and permission bridge</li>
+        <li>Durable state bridge</li>
+        <li>Product wedge</li>
+      </ul>
+    </section>
+
+    <section id="ranked-ideas">
+      <h2>Ranked Ideas</h2>
+      <ul class="jump-list" aria-label="Ranked idea links">
+        <li><a href="#idea-1">1. Type-Safe Kubernetes Agent Spawner</a></li>
+        <li><a href="#idea-2">2. KAgentEngine for Flock</a></li>
+        <li><a href="#idea-3">3. Flock BYO A2A Runtime</a></li>
+        <li><a href="#idea-4">4. Blackboard MCP Server</a></li>
+        <li><a href="#idea-5">5. Visibility-to-RBAC Compiler</a></li>
+        <li><a href="#idea-6">6. Durable Typed Incident Orchestrator</a></li>
+        <li><a href="#idea-7">7. Warm Specialist Pools</a></li>
+      </ul>
+      <div class="ideas">
+        <article class="idea" id="idea-1">
+          <div class="idea-header">
+            <h3>1. Type-Safe Kubernetes Agent Spawner</h3>
+            <div class="chips">
+              <span class="chip axis">Typed runtime compilation</span>
+              <span class="chip conf">Confidence 86%</span>
+              <span class="chip cx">Complexity High</span>
+              <span class="chip novel">Novel wedge</span>
+            </div>
+          </div>
+          <dl class="fields">
+            <dt>Description</dt>
+            <dd>Define a bridge where a Flock subscription does not merely call an in-process agent. It reconciles a kagent <code>Agent</code>, <code>SandboxAgent</code>, or <code>AgentHarness</code> based on the input artifact type, tags, visibility, and desired output schema. The runtime may be ephemeral or persistent. Inputs and outputs stay Pydantic-validated Flock artifacts.</dd>
+            <dt>Basis</dt>
+            <dd><strong>direct:</strong> Flock artifacts carry type, payload, tags, visibility, correlation, and history; kagent <code>AgentSpec</code> supports Declarative/BYO agents, A2A exposure, MCP tools, memory, and deployment settings.</dd>
+            <dt>Rationale</dt>
+            <dd>This is the cleanest answer to the original tingling: type-safe auto-spawning Kubernetes agents. kagent already gives the operator and runtime; Flock supplies the typed reason for spawning and the checked output contract.</dd>
+            <dt>Downsides</dt>
+            <dd>Needs careful ownership semantics: who deletes agents, how to handle stuck pods, whether a subscription creates one runtime per artifact, per correlation, or per type, and how to avoid accidental cluster churn.</dd>
+          </dl>
+          <div class="callout good"><strong>First demo shape:</strong> publish <code>ClusterIncident</code> -> spawn/reuse <code>investigator</code> -> return <code>InvestigationReport</code> -> dashboard shows artifact graph plus kagent runtime status.</div>
+        </article>
+
+        <article class="idea" id="idea-2">
+          <div class="idea-header">
+            <h3>2. KAgentEngine for Flock</h3>
+            <div class="chips">
+              <span class="chip axis">Execution bridge</span>
+              <span class="chip conf">Confidence 82%</span>
+              <span class="chip cx">Complexity Medium</span>
+            </div>
+          </div>
+          <dl class="fields">
+            <dt>Description</dt>
+            <dd>Implement a Flock <code>EngineComponent</code> that invokes a kagent A2A endpoint and materializes the result into the declared Flock output model. The pattern mirrors Flock's existing external-engine boundary: preserve the Flock agent API while delegating runtime execution outside the process.</dd>
+            <dt>Basis</dt>
+            <dd><strong>direct:</strong> Flock's <code>EngineComponent.evaluate()</code> is the execution boundary; <code>OpenClawEngine</code> already demonstrates external response delegation. kagent declarative agents expose A2A URLs via the controller, and BYO agents serve A2A on port 8080.</dd>
+            <dt>Rationale</dt>
+            <dd>This is the smallest technical bridge. It proves that Flock can treat kagent as a remote typed execution backend before adding CRD compilation or lifecycle management.</dd>
+            <dt>Downsides</dt>
+            <dd>On its own, it is an adapter, not a new category. It must validate, repair, or reject non-conforming A2A responses or it loses Flock's main advantage.</dd>
+          </dl>
+        </article>
+
+        <article class="idea" id="idea-3">
+          <div class="idea-header">
+            <h3>3. Flock BYO A2A Runtime for kagent</h3>
+            <div class="chips">
+              <span class="chip axis">Execution bridge</span>
+              <span class="chip conf">Confidence 76%</span>
+              <span class="chip cx">Complexity Medium</span>
+            </div>
+          </div>
+          <dl class="fields">
+            <dt>Description</dt>
+            <dd>Package a Flock workflow as a kagent BYO agent image. The container serves A2A on port 8080, accepts A2A tasks as typed input artifacts, runs the local Flock graph until idle, and returns a typed result as the A2A response.</dd>
+            <dt>Basis</dt>
+            <dd><strong>direct:</strong> kagent BYO agents are user-provided containers deployed by kagent and expected to serve A2A; Flock can publish artifacts and run until idle while retaining artifact history and subscriptions.</dd>
+            <dt>Rationale</dt>
+            <dd>This flips idea 2. Instead of Flock calling kagent, kagent hosts Flock as a higher-order agent. It makes a Flock multi-agent workflow usable from any kagent/A2A surface.</dd>
+            <dt>Downsides</dt>
+            <dd>It risks hiding the typed blackboard behind a normal A2A agent card. The demo must expose artifact graph and validation, or it will look like a nice wrapper rather than a new capability.</dd>
+          </dl>
+        </article>
+
+        <article class="idea" id="idea-4">
+          <div class="idea-header">
+            <h3>4. Blackboard MCP Server for kagent</h3>
+            <div class="chips">
+              <span class="chip axis">Durable state bridge</span>
+              <span class="chip conf">Confidence 74%</span>
+              <span class="chip cx">Complexity Low</span>
+            </div>
+          </div>
+          <dl class="fields">
+            <dt>Description</dt>
+            <dd>Expose Flock operations as a remote MCP server: publish typed artifact, query artifacts, summarize history, fetch graph, and attach evidence to a correlation. Register it in kagent as a <code>RemoteMCPServer</code> so kagent agents can participate in the blackboard without being rewritten.</dd>
+            <dt>Basis</dt>
+            <dd><strong>direct:</strong> Flock already has REST artifact APIs and filtered store queries. kagent has <code>RemoteMCPServerSpec</code> with protocol, URL, headers, TLS, allowed namespaces, and discovered tools.</dd>
+            <dt>Rationale</dt>
+            <dd>This is a low-friction bridge and a good development wedge: kagent agents get a typed shared workspace as a tool, while Flock remains the source of artifact truth.</dd>
+            <dt>Downsides</dt>
+            <dd>MCP bridges are now common. It becomes special only if the tools enforce schemas, visibility, correlation, and replay instead of becoming generic CRUD over artifacts.</dd>
+          </dl>
+        </article>
+
+        <article class="idea" id="idea-5">
+          <div class="idea-header">
+            <h3>5. Visibility-to-RBAC Compiler</h3>
+            <div class="chips">
+              <span class="chip axis">Tool and permission bridge</span>
+              <span class="chip conf">Confidence 69%</span>
+              <span class="chip cx">Complexity High</span>
+            </div>
+          </div>
+          <dl class="fields">
+            <dt>Description</dt>
+            <dd>Compile Flock visibility and context-provider policy into kagent/Kubernetes boundaries: namespace placement, service accounts, allowed namespaces, MCP allowed headers, required tool approvals, and optional per-tenant RemoteMCPServer references.</dd>
+            <dt>Basis</dt>
+            <dd><strong>direct:</strong> Flock enforces visibility before context reaches engines; kagent has namespace attachment controls, service account config, MCP header propagation controls, and per-tool approval metadata.</dd>
+            <dt>Rationale</dt>
+            <dd>This is the hardening layer that makes type-safe spawning enterprise-plausible. It answers "the artifact says tenant A; did we also constrain the actual cluster runtime?"</dd>
+            <dt>Downsides</dt>
+            <dd>This can easily drift into governance theater. It should be built as a compiler that emits concrete manifests and diffs, not as a policy dashboard.</dd>
+          </dl>
+          <div class="callout warn"><strong>Boundary:</strong> do not lead with this. Use it as the trust story after the typed spawner demo works.</div>
+        </article>
+
+        <article class="idea" id="idea-6">
+          <div class="idea-header">
+            <h3>6. Durable Typed Incident Orchestrator</h3>
+            <div class="chips">
+              <span class="chip axis">Product wedge</span>
+              <span class="chip conf">Confidence 66%</span>
+              <span class="chip cx">Complexity Medium</span>
+            </div>
+          </div>
+          <dl class="fields">
+            <dt>Description</dt>
+            <dd>Build a concrete incident workflow: cluster events, alerts, logs, traces, runbook attempts, proposed remediations, approvals, and final reports are all typed artifacts. kagent specialists run inside Kubernetes; Flock records the workflow and decides the next specialist from artifact state.</dd>
+            <dt>Basis</dt>
+            <dd><strong>external:</strong> auto-remediation and troubleshooting are crowded by Kubiya, K8sGPT, HolmesGPT, Robusta, Akuity, and similar tools. <strong>reasoned:</strong> typed replayable artifacts are still a distinct operator value if they make evidence, action, approval, and output schemas explicit.</dd>
+            <dt>Rationale</dt>
+            <dd>This is the most legible demo domain. Operators instantly understand "why did the agent do that?" if every step is an artifact with a schema and correlation id.</dd>
+            <dt>Downsides</dt>
+            <dd>Generic Kubernetes AI remediation is not unique. The product copy must be "typed, replayable orchestration" rather than "AI fixes your cluster."</dd>
+          </dl>
+        </article>
+
+        <article class="idea" id="idea-7">
+          <div class="idea-header">
+            <h3>7. Warm Specialist Pools</h3>
+            <div class="chips">
+              <span class="chip axis">Typed runtime compilation</span>
+              <span class="chip conf">Confidence 61%</span>
+              <span class="chip cx">Complexity High</span>
+            </div>
+          </div>
+          <dl class="fields">
+            <dt>Description</dt>
+            <dd>Use Flock's pending artifacts, schedules, and historical fan-out to prewarm kagent agents or substrate-backed harnesses for likely next steps. For example, a burst of <code>LogAnomaly</code> artifacts can warm investigator agents before downstream joins are ready.</dd>
+            <dt>Basis</dt>
+            <dd><strong>direct:</strong> Flock has schedules, typed history, and pending execution state; kagent has deployments, sandbox agents, harnesses, and substrate concepts for ready environments.</dd>
+            <dt>Rationale</dt>
+            <dd>This turns the blackboard into a capacity planning signal. It is not just autoscaling a queue; it is warming the particular specialist runtime that a typed workflow is likely to need.</dd>
+            <dt>Downsides</dt>
+            <dd>Hard to demo cleanly and easy to reduce to KEDA-style scaling. It belongs after the lifecycle bridge proves that typed artifacts can drive runtime creation.</dd>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <section id="rejection-summary">
+      <h2>Rejection Summary</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Idea</th>
+            <th>Reason Rejected</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Just deploy Flock on Kubernetes</td><td>Generic packaging; no new coordination primitive.</td></tr>
+          <tr><td>2</td><td>Generic AI DevOps Copilot</td><td>Crowded by Kubiya, K8sGPT, HolmesGPT, Robusta, Akuity, and similar products.</td></tr>
+          <tr><td>3</td><td>Workflow DAG engine on Kubernetes</td><td>Argo/Tekton and ARK workflow delegation already cover the obvious DAG layer.</td></tr>
+          <tr><td>4</td><td>Kubernetes-native agent CRDs</td><td>Already core to kagent and ARK.</td></tr>
+          <tr><td>5</td><td>Agent pods or sandboxed runtimes</td><td>Agent Sandbox and kagent Agent Substrate already cover much of the runtime substrate.</td></tr>
+          <tr><td>6</td><td>Autoscale agents by queue length</td><td>KEDA-style scaling is generic; only worth revisiting when the queue item is a typed artifact contract.</td></tr>
+          <tr><td>7</td><td>Chat UI over kagent</td><td>kagent already has UI and A2A surfaces.</td></tr>
+          <tr><td>8</td><td>Agent memory store</td><td>kagent already has memory design/runtime work; Flock's stronger role is typed provenance and replay.</td></tr>
+          <tr><td>9</td><td>MCP tool marketplace</td><td>MCP catalogs are becoming table stakes; the distinctive angle is schema-checked blackboard tools.</td></tr>
+          <tr><td>10</td><td>OpenAPI-as-tool integration</td><td>No strong kagent code path found in the scout pass, but as a standalone idea it is not central to the Flock/kagent fit.</td></tr>
+          <tr><td>11</td><td>Full FlockBoard CRD suite first</td><td>Interesting, but too large and Beluga-adjacent. Start with artifact-triggered kagent lifecycle before designing a whole CRD universe.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="sources-references">
+      <h2>Sources &amp; References</h2>
+      <ul class="references">
+        <li><a href="https://github.com/whiteducksoftware/flock/blob/c13f1f0a/src/flock/core/artifacts.py">Flock <code>Artifact</code> model</a> and <a href="https://github.com/whiteducksoftware/flock/blob/c13f1f0a/src/flock/core/store.py">BlackboardStore/filter surface</a>.</li>
+        <li><a href="https://github.com/whiteducksoftware/flock/blob/c13f1f0a/src/flock/components/agent/base.py">Flock <code>EngineComponent</code></a>, <a href="https://github.com/whiteducksoftware/flock/blob/c13f1f0a/src/flock/integrations/openclaw/engine.py">OpenClaw external-engine precedent</a>, and <a href="https://github.com/whiteducksoftware/flock/blob/c13f1f0a/src/flock/core/context_provider.py">context-provider visibility enforcement</a>.</li>
+        <li><a href="https://github.com/whiteducksoftware/flock/blob/c13f1f0a/src/flock/storage/dapr/dapr_state_blackboard_store.py">Flock Dapr-backed blackboard store</a> and <a href="https://github.com/whiteducksoftware/flock/blob/c13f1f0a/src/flock/components/server/artifacts/artifacts_component.py">artifact REST API</a>.</li>
+        <li><a href="https://github.com/kagent-dev/kagent/blob/6d7d257/go/api/v1alpha2/agent_types.go">kagent <code>Agent</code>, BYO, A2A, tools, and memory types</a>, plus <a href="https://github.com/kagent-dev/kagent/blob/6d7d257/go/api/v1alpha2/remotemcpserver_types.go">RemoteMCPServer</a> and <a href="https://github.com/kagent-dev/kagent/blob/6d7d257/go/api/v1alpha2/agentharness_types.go">AgentHarness</a>.</li>
+        <li><a href="https://kagent.dev/docs/kagent/resources/api-ref">kagent API reference</a>, <a href="https://kagent.dev/docs/kagent/examples/a2a-agents">kagent A2A agent example</a>, <a href="https://kagent.dev/docs/kagent/concepts/agent-memory">kagent agent memory</a>, and <a href="https://kagent.dev/docs/kagent/concepts/agent-substrate">kagent Agent Substrate</a>.</li>
+        <li><a href="https://mckinsey.github.io/agents-at-scale-ark/core-concepts/">ARK core concepts</a>, <a href="https://mckinsey.github.io/agents-at-scale-ark/reference/crds/">ARK CRDs</a>, and <a href="https://mckinsey.github.io/agents-at-scale-ark/developer-guide/workflows/">ARK workflows via Argo Workflows</a>.</li>
+        <li><a href="https://kubernetes.io/blog/2026/03/20/running-agents-on-kubernetes-with-agent-sandbox/">Kubernetes Agent Sandbox blog</a> and <a href="https://agent-sandbox.sigs.k8s.io/docs/getting_started/overview/">Agent Sandbox overview</a>.</li>
+        <li><a href="https://docs.kubiya.ai/introduction/what-is-kubiya">Kubiya overview</a>, <a href="https://docs.kubiya.ai/core-concepts/execution-infrastructure/workers">Kubiya workers</a>, <a href="https://docs.kubiya.ai/mcp/overview">Kubiya MCP</a>, <a href="https://github.com/k8sgpt-ai/k8sgpt">K8sGPT</a>, and <a href="https://www.cncf.io/blog/2026/01/07/holmesgpt-agentic-troubleshooting-built-for-the-cloud-native-era/">HolmesGPT CNCF post</a>.</li>
+        <li><a href="https://beluga-ai.org/docs/start/">Beluga AI docs</a>, used as a prior-art caution for blackboard-pattern agents with Kubernetes deployment surfaces.</li>
+        <li>Scratch trace: <code>/tmp/compound-engineering/ce-ideate/4eb04bee/kagent-flock-raw-candidates.md</code>; cloned kagent checkout: <code>/tmp/compound-engineering/ce-ideate/4eb04bee/kagent</code>.</li>
+      </ul>
+    </section>
+
+    <footer class="composition-signal">Composed 2026-06-30T01:24:52Z by ce-ideate from the kagent clone, live Flock checkout, QMD/memory refresh, and web prior-art scan.</footer>
+  </main>
+</body>
+</html>

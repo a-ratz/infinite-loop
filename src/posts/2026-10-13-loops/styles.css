@@ -1,0 +1,336 @@
+.lp-shell {
+  --retry: #7cc7ff;
+  --close: #ffb547;
+  --escalate: #c9d7ff;
+  --accept: #6fffd9;
+}
+
+/* four decisions */
+
+.lp-decisions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.lp-decisions article {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--mint);
+  border-radius: 10px;
+  background: rgba(8, 12, 11, 0.9);
+}
+
+.lp-decisions article.is-retry { border-top-color: var(--retry); }
+.lp-decisions article.is-close { border-top-color: var(--close); }
+.lp-decisions article.is-escalate { border-top-color: var(--escalate); }
+.lp-decisions article.is-accept { border-top-color: var(--accept); }
+
+.lp-decisions b {
+  font: 900 2.4rem/1 var(--display);
+  text-transform: uppercase;
+}
+
+.lp-decisions .is-retry b { color: var(--retry); }
+.lp-decisions .is-close b { color: var(--close); }
+.lp-decisions .is-escalate b { color: var(--escalate); }
+.lp-decisions .is-accept b { color: var(--accept); }
+
+.lp-decisions p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* bench */
+
+.lp-bench {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.lp-controls,
+.lp-run {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(8, 12, 11, 0.92);
+}
+
+.lp-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lp-presets button {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid rgba(111, 255, 217, 0.4);
+  border-radius: 8px;
+  color: var(--mint);
+  background: rgba(111, 255, 217, 0.06);
+  font: 500 0.78rem/1 var(--mono);
+  cursor: pointer;
+}
+
+.lp-presets button.is-active {
+  color: #03120d;
+  background: var(--mint);
+}
+
+.lp-field {
+  margin: 22px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.lp-field legend {
+  margin-bottom: 10px;
+  color: var(--dim);
+  font: 500 0.7rem/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lp-field label {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 2px 10px;
+  align-items: start;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 150ms, background 150ms;
+}
+
+.lp-field label.is-on {
+  border-color: rgba(111, 255, 217, 0.45);
+  background: rgba(111, 255, 217, 0.06);
+}
+
+.lp-field input {
+  margin: 3px 0 0;
+  accent-color: var(--mint);
+}
+
+.lp-field span {
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.lp-field small {
+  grid-column: 2;
+  color: var(--dim);
+  font-size: 0.82rem;
+}
+
+.lp-log {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  min-height: 140px;
+}
+
+.lp-log li {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 92px;
+  gap: 12px;
+  align-items: start;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  animation: foh-gate 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.lp-n {
+  color: var(--dim);
+  font: 500 0.8rem/1.6 var(--mono);
+}
+
+.lp-log q {
+  display: block;
+  color: var(--ink);
+  font-style: italic;
+}
+
+.lp-log em {
+  display: block;
+  margin-top: 2px;
+  color: var(--dim);
+  font: 500 0.75rem/1.4 var(--mono);
+  font-style: normal;
+}
+
+.lp-log p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.lp-decision {
+  justify-self: end;
+  padding: 4px 10px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font: 600 0.7rem/1.2 var(--mono);
+  text-transform: uppercase;
+}
+
+.lp-log .is-retry .lp-decision { color: var(--retry); }
+.lp-log .is-close .lp-decision { color: var(--close); }
+.lp-log .is-escalate .lp-decision { color: var(--escalate); }
+.lp-log .is-accept .lp-decision { color: var(--accept); }
+
+.lp-outcome {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  opacity: 0.25;
+  transition: opacity 300ms, border-color 300ms, background 300ms;
+}
+
+.lp-outcome.is-shown {
+  opacity: 1;
+}
+
+.lp-outcome.is-bad.is-shown {
+  border-color: rgba(255, 92, 92, 0.5);
+  background: repeating-linear-gradient(-45deg, rgba(255, 92, 92, 0.05) 0 12px, transparent 12px 24px);
+}
+
+.lp-outcome.is-ok.is-shown {
+  border-color: rgba(201, 215, 255, 0.5);
+  background: rgba(201, 215, 255, 0.05);
+}
+
+.lp-outcome.is-good.is-shown {
+  border-color: rgba(111, 255, 217, 0.55);
+  background: rgba(111, 255, 217, 0.07);
+}
+
+.lp-outcome span {
+  color: var(--dim);
+  font: 500 0.7rem/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lp-outcome h3 {
+  margin: 8px 0 0;
+  font: 900 2rem/1 var(--display);
+  text-transform: uppercase;
+}
+
+.lp-outcome.is-bad h3 { color: var(--red); }
+.lp-outcome.is-ok h3 { color: var(--escalate); }
+.lp-outcome.is-good h3 { color: var(--mint); }
+
+.lp-outcome p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+/* where the rules live */
+
+.lp-places {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 28px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.lp-places div {
+  padding: 20px;
+  background: rgba(8, 12, 11, 0.95);
+}
+
+.lp-places b {
+  color: var(--mint);
+  font: 700 1.5rem/1 var(--display);
+  text-transform: uppercase;
+}
+
+.lp-places p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* next */
+
+.foh-shell a.lp-next {
+  display: block;
+  padding: 30px;
+  border: 1px solid rgba(111, 255, 217, 0.4);
+  border-radius: 12px;
+  background:
+    radial-gradient(600px 200px at 90% 0%, rgba(111, 255, 217, 0.12), transparent 70%),
+    rgba(8, 12, 11, 0.95);
+  color: var(--ink);
+  transition: transform 200ms, border-color 200ms;
+}
+
+.foh-shell a.lp-next:hover {
+  transform: translateY(-3px);
+  border-color: var(--mint);
+}
+
+.lp-next strong {
+  display: block;
+  margin-top: 12px;
+  font: 900 clamp(3rem, 8vw, 6rem) / 0.9 var(--display);
+  text-transform: uppercase;
+}
+
+.lp-next p {
+  max-width: 680px;
+  margin: 14px 0 0;
+  color: var(--muted);
+}
+
+.lp-next em {
+  display: block;
+  margin-top: 14px;
+  color: var(--mint);
+  font: 500 0.85rem/1 var(--mono);
+  font-style: normal;
+}
+
+@media (max-width: 860px) {
+  .lp-decisions,
+  .lp-places {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lp-bench {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lp-log li {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+
+  .lp-decision {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+.lp-shell .foh-hero h1 {
+  font-size: clamp(4rem, 10.5vw, 9.5rem);
+}
+
+.lp-back {
+  margin: 22px 0 0;
+  font: 500 0.85rem/1.4 var(--mono);
+}

@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.internal/
+# Build output
+dist/
+build/
+
+# Vite cache
+.vite/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.external
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Coverage directory
+coverage/
