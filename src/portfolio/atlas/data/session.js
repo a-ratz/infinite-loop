@@ -1,6 +1,6 @@
 // A scripted Atlas session for the page's replay. Nothing here ran against a live agent.
 //
-// What follows the public repo a-ratz/atlas (v0.6.1):
+// What follows the public repo a-ratz/atlas (v0.6.2):
 // - the three workflows and their order: atlas-learn -> atlas-distill -> atlas-map
 //   (skills/atlas/app/.agents/skills/*/SKILL.md)
 // - the note formats: capture frontmatter and sections, insight frontmatter (description, category,

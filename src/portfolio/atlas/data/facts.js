@@ -1,5 +1,5 @@
 // Facts on the Atlas page. Each one was checked on 2026-10-13 against the public repo a-ratz/atlas
-// (cloned from GitHub that day, app version 0.6.1) or the GitHub API.
+// (cloned from GitHub that day; app version 0.6.2 after the evening release) or the GitHub API.
 
 export const REPO_URL = "https://github.com/a-ratz/atlas";
 export const DEMO_URL = "https://a-ratz.github.io/atlas/";
@@ -35,9 +35,9 @@ export const FACTS = [
   },
   {
     label: "Release",
-    value: "0.6.1 · MIT",
-    note: "Seven workflow skills ship with the app.",
-    // skills/atlas/app/VERSION = 0.6.1; LICENSE (MIT, also GitHub API license.spdx_id);
+    value: "0.6.2 · MIT",
+    note: "Eight workflow skills ship with the app.",
+    // skills/atlas/app/VERSION = 0.6.2 (0.6.2 added atlas-cabinet); LICENSE (MIT, also GitHub API license.spdx_id);
     // skills/atlas/app/.agents/skills/: atlas-operator, -learn, -distill, -map, -sketch, -project, -clean-demo.
   },
 ];

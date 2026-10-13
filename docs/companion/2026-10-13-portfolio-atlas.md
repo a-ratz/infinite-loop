@@ -28,7 +28,8 @@ first issued for 1767. One note is marked speculative on purpose.
 `data/facts.js`, checked 2026-10-13: supported agents (Claude Code, Codex, pi,
 OpenCode, any harness that runs a command), Markdown in git with no database,
 localhost:8765 with no login, one Python engine file run by uv with four pinned
-packages, release 0.6.1 under MIT with seven workflow skills.
+packages, release 0.6.2 under MIT with eight workflow skills (0.6.2 added
+`atlas-cabinet`, people and organization cards with optional LinkedIn enrichment).
 
 ## Design
 

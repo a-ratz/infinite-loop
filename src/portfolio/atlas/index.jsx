@@ -1256,7 +1256,7 @@ function Limits() {
         <p className="atl-kicker is-warn">03 · limits</p>
         <h2>What Atlas does not do yet.</h2>
         <p className="atl-lede">
-          Taken from the README's status section, the operator skill and the engine, as of version 0.6.1.
+          Taken from the README's status section, the operator skill and the engine, as of version 0.6.2.
         </p>
       </div>
       <ul className="atl-limit-list">
@@ -1307,7 +1307,7 @@ export default function Atlas() {
             a-ratz/atlas
           </a>{" "}
           (README, AGENTS.md, the workflow skills, <code>engine/atlas.py</code>, <code>vault/atlas.yaml</code>) at
-          version 0.6.1, read on 13 October 2026.
+          version 0.6.2, read on 13 October 2026.
         </p>
       </footer>
     </main>
