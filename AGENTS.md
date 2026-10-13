@@ -182,8 +182,8 @@ Impressum:
 
 ## Known Sharp Edges
 
-- `wrangler.jsonc` uses `"name": "inifinite-loop"` with an extra `i`. This
-  appears to match the existing deployed URL naming, so do not "fix" it casually.
+- The worker was renamed from `inifinite-loop` (typo) to `infinite-loop` on
+  2026-10-13. Live URL: `https://infinite-loop.andre-ratzenberger.workers.dev`.
 - `docs/DEPLOYMENT.md` explains SPA redirect needs, but the repo currently does
   not have a committed `public/_redirects`.
 - The home cards use `repeat(auto-fill, minmax(350px, 1fr))` inside 40px page
