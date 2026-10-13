@@ -5,6 +5,7 @@ import About from "./pages/About";
 import Impressum from "./pages/Impressum";
 import PostLayout from "./components/PostLayout";
 import { posts, redirects } from "./posts/registry";
+import { works } from "./portfolio/registry";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -31,6 +32,17 @@ export default function App() {
           element={
             <PostLayout post={post}>
               <post.component />
+            </PostLayout>
+          }
+        />
+      ))}
+      {works.map((work) => (
+        <Route
+          key={work.slug}
+          path={`/portfolio/${work.slug}`}
+          element={
+            <PostLayout post={work}>
+              <work.component />
             </PostLayout>
           }
         />

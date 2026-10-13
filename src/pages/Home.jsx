@@ -1,14 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { posts } from "../posts/registry";
 import { useState, useEffect } from "react";
+import PortfolioSection from "../components/PortfolioSection";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [hoveredPost, setHoveredPost] = useState(null);
+  const { hash } = useLocation();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
+  }, [hash]);
 
   return (
     <div
@@ -299,6 +305,8 @@ export default function Home() {
             </Link>
           ))}
         </div>
+
+        <PortfolioSection mounted={mounted} />
       </main>
 
       {/* Footer */}

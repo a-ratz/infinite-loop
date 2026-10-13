@@ -68,6 +68,15 @@ public/
   favicon.svg
 ```
 
+## Adding A Portfolio Page
+
+Portfolio pages live in `src/portfolio/<slug>/` and are listed in
+`src/portfolio/registry.js` (`works`). They route to `/portfolio/<slug>` and appear
+in the "Portfolio" section below the articles on the home page
+(`src/components/PortfolioSection.jsx`). Each registry entry carries `kind`,
+`description`, `readout` (a short monospace line on the card) and `color`. Add a
+companion note in `docs/companion/YYYY-MM-DD-portfolio-<slug>.md`.
+
 ## Adding A Post
 
 1. Create `src/posts/YYYY-MM-DD-slug/index.jsx`.

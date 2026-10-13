@@ -58,7 +58,7 @@ export default function PostLayout({ post, children }) {
             fontFamily: '"JetBrains Mono", monospace',
           }}
         >
-          {post.date}
+          {post.navLabel ?? post.date}
         </span>
       </nav>
 
