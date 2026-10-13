@@ -193,6 +193,12 @@ Impressum:
 
 - The worker was renamed from `inifinite-loop` (typo) to `infinite-loop` on
   2026-10-13. Live URL: `https://infinite-loop.andre-ratzenberger.workers.dev`.
+- GitHub Pages mirror at `https://a-ratz.github.io/`, built by the Pages
+  workflow in `a-ratz/a-ratz.github.io` (daily and on `gh workflow run pages
+  -R a-ratz/a-ratz.github.io`). LinkedIn cannot fetch `*.workers.dev`, so the
+  OpenGraph URL and image in `index.html` point at the mirror.
+  `scripts/static-routes.mjs` writes one `index.html` per route, so deep links
+  return 200 there.
 - `docs/DEPLOYMENT.md` explains SPA redirect needs, but the repo currently does
   not have a committed `public/_redirects`.
 - The home cards use `repeat(auto-fill, minmax(350px, 1fr))` inside 40px page
