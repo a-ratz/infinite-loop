@@ -46,7 +46,7 @@ It's what happens when you stop asking "how do I write about this?" and start as
 
 ## The Stack (Post)
 
-The inaugural entry: **[The Stack](https://infinite-loop.andre-ratzenberger.workers.dev/the-stack)** — an opinionated guide to 97 developer tools for 2025-2026.
+The inaugural entry: **[The Stack](https://a-ratz.github.io/the-stack)** — an opinionated guide to 97 developer tools for 2025-2026.
 
 Not a listicle. An explorable interface.
 
