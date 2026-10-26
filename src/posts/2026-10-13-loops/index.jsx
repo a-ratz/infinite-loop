@@ -217,7 +217,7 @@ export default function Loops() {
   return (
     <main className="foh-shell lp-shell">
       <header className="foh-hero">
-        <p className="foh-kicker">New Software Primitives · Loops 2/2</p>
+        <p className="foh-kicker">New Software Primitives · Loops 2/3</p>
         <h1>
           Who decides
           <br />
@@ -232,7 +232,7 @@ export default function Loops() {
           and when to stop. The model is one part of that system, and not the part that decides.
         </p>
         <p className="lp-back">
-          <Link to="/fifty-one-hours">← Loops 1/2: Fifty-One Hours, the real loop these rules come from</Link>
+          <Link to="/fifty-one-hours">← Loops 1/3: Fifty-One Hours, the real loop these rules come from</Link>
         </p>
       </header>
 
@@ -297,13 +297,22 @@ export default function Loops() {
 
       <section className="foh-section">
         <Link to="/fifty-one-hours" className="lp-next">
-          <span className="foh-kicker">Loops 1/2 · where these rules come from</span>
+          <span className="foh-kicker">Loops 1/3 · where these rules come from</span>
           <strong>Fifty-one hours.</strong>
           <p>
             The same rules on a real repository: a coding agent, 88 merged pull requests, 3,289 backend tests on every
             run, and a second reviewer that found what the first one missed.
           </p>
           <em>Read part 1 →</em>
+        </Link>
+        <Link to="/get-it-green" className="lp-next">
+          <span className="foh-kicker">Loops 3/3 · which door each check closes</span>
+          <strong>Get it green.</strong>
+          <p>
+            Play the agent with a red test. Each slide adds one control, and you see which ways to green it closes and
+            which it leaves open.
+          </p>
+          <em>Read part 3 →</em>
         </Link>
       </section>
 
