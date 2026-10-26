@@ -544,7 +544,7 @@ export default function FiftyOneHours() {
   return (
     <main className="foh-shell">
       <header className="foh-hero">
-        <p className="foh-kicker">New Software Primitives · Loops 1/2 · flight recorder</p>
+        <p className="foh-kicker">New Software Primitives · Loops 1/3 · flight recorder</p>
         <h1>
           Fifty-one
           <br />
@@ -586,7 +586,7 @@ export default function FiftyOneHours() {
 
       <section className="foh-section">
         <Link to="/loops" className="foh-next">
-          <span className="foh-kicker">Loops 2/2 · the general version</span>
+          <span className="foh-kicker">Loops 2/3 · the general version</span>
           <strong>Who decides done?</strong>
           <p>
             The rules from this weekend without the repository: the four decisions a loop makes after every attempt, and

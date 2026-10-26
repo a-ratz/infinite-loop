@@ -280,6 +280,10 @@
   transition: transform 200ms, border-color 200ms;
 }
 
+.foh-shell a.lp-next + a.lp-next {
+  margin-top: 16px;
+}
+
 .foh-shell a.lp-next:hover {
   transform: translateY(-3px);
   border-color: var(--mint);

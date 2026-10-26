@@ -3,8 +3,22 @@ import TheStack from "./2025-12-01-the-stack";
 import Fzf from "./2025-12-07-fzf";
 import Loops from "./2026-10-13-loops";
 import FiftyOneHours from "./2026-10-13-fifty-one-hours";
+import GetItGreen from "./2026-10-26-get-it-green";
 
 export const posts = [
+    {
+        slug: "get-it-green",
+        title: "Get It Green",
+        description:
+            "Play the agent with a red test. Each slide adds one control, and you see which ways to green it closes and which it leaves open.",
+        date: "2026-10-26",
+        type: "interactive",
+        color: "#56ffd0",
+        series: "NSP",
+        seriesFull: "New Software Primitives",
+        part: "Loops 3/3",
+        component: GetItGreen,
+    },
     {
         slug: "fifty-one-hours",
         title: "Fifty-One Hours",
@@ -15,7 +29,7 @@ export const posts = [
         color: "#56ffd0",
         series: "NSP",
         seriesFull: "New Software Primitives",
-        part: "Loops 1/2",
+        part: "Loops 1/3",
         component: FiftyOneHours,
     },
     {
@@ -28,7 +42,7 @@ export const posts = [
         color: "#56ffd0",
         series: "NSP",
         seriesFull: "New Software Primitives",
-        part: "Loops 2/2",
+        part: "Loops 2/3",
         component: Loops,
     },
     {
